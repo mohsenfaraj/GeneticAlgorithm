@@ -1,6 +1,12 @@
 import random
 class Genetic:
     bestOfGenerationsFitness = []
+
+    def getBOG(self):
+        return self.bestOfGenerationsFitness
+
+    def clearBOG(self):
+        self.bestOfGenerationsFitness.clear()
     def __init__(self , populationCount , csrate , mrrate , elitrate , generations):
         self.populationCount = populationCount
         self.csrate = csrate

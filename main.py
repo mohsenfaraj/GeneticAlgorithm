@@ -1,20 +1,37 @@
 import tkinter as tk 
-
+from tkinter import ttk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
 from genetic import Genetic
+
+fig, ax = plt.subplots()
+def plot_array(array):
+    ax.clear()
+    ax.bar(range(len(array)), array)
+    ax.set_ylim(24, 28)
+    ax.yaxis.set_major_locator(plt.MaxNLocator(integer=True))
+    ax.xaxis.set_major_locator(plt.MaxNLocator(integer=True))
+    ax.set_title("Best of Generations")
+    ax.set_xlabel("Generation")
+    ax.set_ylabel("Fitness")
+    canvas.draw()
+
 def execute() :
     genetic = Genetic(
-    populationCount= int(popEntry.get()),
-    csrate= float(csoverEntry.get()),
-    mrrate= float(MREntry.get()),
-    elitrate= float(EREntry.get()),
-    generations= int(genEntry.get())
-    )
+        populationCount= int(popEntry.get()),
+        csrate= float(csoverEntry.get()),
+        mrrate= float(MREntry.get()),
+        elitrate= float(EREntry.get()),
+        generations= int(genEntry.get()))
     solution = genetic.solution()
     Resultlbl.config(text=solution)
+    plot_array(genetic.getBOG())
+    genetic.clearBOG()
+    del genetic
 
 
 root = tk.Tk()
-root.geometry("600x500")
+root.geometry("1024x600")
 root.title("8-Queen Solver")
 
 greeting = tk.Label(root , text="8-Queen Solver" ,
@@ -32,30 +49,35 @@ poplbl = tk.Label(root , text="Population")
 poplbl.grid(row= 2 , column= 0)
 
 popEntry = tk.Entry(root)
+popEntry.insert(0, '50')
 popEntry.grid(row= 2 , column= 1)
 
 csoverlbl = tk.Label(root , text="CrossOver Rate")
 csoverlbl.grid(row= 3 , column= 0)
 
 csoverEntry = tk.Entry(root)
+csoverEntry.insert(0, '0.6')
 csoverEntry.grid(row=3 , column=1)
 
-MRlbl = tk.Label(root , text="Mutation Label")
+MRlbl = tk.Label(root , text="Mutation Rate")
 MRlbl.grid(row = 4 , column= 0)
 
 MREntry = tk.Entry(root)
+MREntry.insert(0, '0.1')
 MREntry.grid(row=4 , column=1)
 
 ERlbl = tk.Label(root , text="Elitisim Rate")
 ERlbl.grid(row=5 , column=0)
 
 EREntry = tk.Entry(root)
+EREntry.insert(0, '0.02')
 EREntry.grid(row=5 , column=1)
 
 genlbl = tk.Label(root , text="Generations")
 genlbl.grid(row=6 , column=0)
 
 genEntry = tk.Entry(root)
+genEntry.insert(0, '1000')
 genEntry.grid(row=6 , column=1)
 
 Execbtn = tk.Button(root , text="Execute" , command=execute)
@@ -63,6 +85,10 @@ Execbtn.grid(row=7 , columnspan=2)
 
 Resultlbl = tk.Label(root , text="Results")
 Resultlbl.grid(row=8 , columnspan=2)
+
+canvas = FigureCanvasTkAgg(figure=fig , master=root)
+canvas_widget = canvas.get_tk_widget()
+canvas_widget.grid(row=0, column=3, columnspan=1, rowspan=8 , padx=10 , pady=10)
 
 # Configure row and column weights to make the cells expand with the window
 for i in range(9):
