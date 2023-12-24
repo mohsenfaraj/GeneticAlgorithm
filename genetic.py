@@ -41,14 +41,14 @@ class Genetic:
                     clashes += 1
         return self.maxFitness - clashes
 
-    #TODO: crossover should return two chromosomes
     def __crossover(self , parent1, parent2):
         if (random.random() < self.csrate):
             crossover_point = random.randint(1, self.n-2)
-            child = parent1[:crossover_point] + [gene for gene in parent2 if gene not in parent1[:crossover_point]]
-            return child
+            child1 = parent1[:crossover_point] + [gene for gene in parent2 if gene not in parent1[:crossover_point]]
+            child2 = parent2[:crossover_point] + [gene for gene in parent1 if gene not in parent2[:crossover_point]]
+            return [child1 , child2]
         else:
-            return parent1
+            return [parent1 , parent2]
 
     def __mutate(self , individual):
         mutation_point1, mutation_point2 = random.sample(range(self.n), 2)
@@ -79,10 +79,13 @@ class Genetic:
             # new_population = [population[:elitcount]]  # Elitism: Keep the best individual
             while len(new_population) < self.populationCount:
                 parent1, parent2 = random.choices(population[:5], k=2)  # Tournament selection
-                child = self.__crossover(parent1, parent2)
+                [child1 , child2] = self.__crossover(parent1, parent2)
                 if random.random() < self.mrrate:  # 10% chance of mutation
-                    self.__mutate(child)
-                new_population.append(child)
+                    self.__mutate(child1)
+                if random.random() < self.mrrate:
+                    self.__mutate(child2)
+                new_population.append(child1)
+                new_population.append(child2)
 
             population = new_population
         return (f"Best Effort: {population[0]} , fitness:{self.__fitness(population[0])}/{self.maxFitness}")

@@ -7,21 +7,25 @@ from genetic import Genetic
 fig, ax = plt.subplots()
 maxFitness = 0
 def execute() :
+    populationCount = int(popEntry.get()) 
+    if populationCount % 2 == 1:
+        populationCount += 1
     genetic = Genetic(
         n = int(nEntry.get()) , 
-        populationCount= int(popEntry.get()),
+        populationCount= populationCount,
         csrate= float(csoverEntry.get()),
         mrrate= float(MREntry.get()),
         elitrate= float(EREntry.get()),
         generations= int(genEntry.get()))
     solution = genetic.solution()
-    print(genetic.solution())
+    print(solution)
     # maxFitness = genetic.maxFitness
     Resultlbl.config(text=solution)
     print("Avg: " , genetic.getAvg())
     plot_array(genetic.getBOG() , genetic.getAvg())
     genetic.clearBOG()
     genetic.clearAvg()
+    print("---\t---\t---\t---\t---")
 
 def plot_array(best , avg):
     ax.clear()
@@ -54,14 +58,14 @@ nlbl = tk.Label(root , text="N:")
 nlbl.grid(row=2 , column=0)
 
 nEntry = tk.Entry(root)
-nEntry.insert(0, '8')
+nEntry.insert(0, '15')
 nEntry.grid(row=2 , column=1)
 
 poplbl = tk.Label(root , text="Population")
 poplbl.grid(row= 3 , column= 0)
 
 popEntry = tk.Entry(root)
-popEntry.insert(0, '150')
+popEntry.insert(0, '500')
 popEntry.grid(row= 3 , column= 1)
 
 csoverlbl = tk.Label(root , text="CrossOver Rate")
@@ -82,20 +86,20 @@ ERlbl = tk.Label(root , text="Elitisim Rate")
 ERlbl.grid(row=6 , column=0)
 
 EREntry = tk.Entry(root)
-EREntry.insert(0, '0.05')
+EREntry.insert(0, '0.02')
 EREntry.grid(row=6 , column=1)
 
 genlbl = tk.Label(root , text="Generations")
 genlbl.grid(row=7 , column=0)
 
 genEntry = tk.Entry(root)
-genEntry.insert(0, '1000')
+genEntry.insert(0, '100')
 genEntry.grid(row=7 , column=1)
 
 Execbtn = tk.Button(root , text="Execute" , command=execute)
 Execbtn.grid(row=8 , columnspan=2)
 
-Resultlbl = tk.Label(root , text="Results")
+Resultlbl = tk.Label(root , text="Results" , height=5 , wraplength=200)
 Resultlbl.grid(row=9 , columnspan=2)
 
 canvas = FigureCanvasTkAgg(figure=fig , master=root)
