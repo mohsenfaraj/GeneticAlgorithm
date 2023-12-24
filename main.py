@@ -16,7 +16,9 @@ def execute() :
         csrate= float(csoverEntry.get()),
         mrrate= float(MREntry.get()),
         elitrate= float(EREntry.get()),
-        generations= int(genEntry.get()))
+        generations= int(genEntry.get()),
+        tourSize = int(tourEntry.get())
+        )
     solution = genetic.solution()
     print(solution)
     # maxFitness = genetic.maxFitness
@@ -49,68 +51,68 @@ font="Monospace 18 bold" ,
 )
 greeting.grid(row=0 , columnspan=2)
 
-codedBy = tk.Label(text="coded by Mohsen Farajollahi" ,
-font="Monospace 12 " ,
-fg="grey"
-)
-codedBy.grid(row=1 , columnspan=2)
-
 nlbl = tk.Label(root , text="N:")
-nlbl.grid(row=2 , column=0)
+nlbl.grid(row=1 , column=0)
 
 nEntry = tk.Entry(root)
 nEntry.insert(0, '15')
-nEntry.grid(row=2 , column=1)
+nEntry.grid(row=1 , column=1)
 
 poplbl = tk.Label(root , text="Population")
-poplbl.grid(row= 3 , column= 0)
+poplbl.grid(row= 2 , column= 0)
 
 popEntry = tk.Entry(root)
 popEntry.insert(0, '500')
-popEntry.grid(row= 3 , column= 1)
+popEntry.grid(row= 2 , column= 1)
 
 csoverlbl = tk.Label(root , text="CrossOver Rate")
-csoverlbl.grid(row= 4 , column= 0)
+csoverlbl.grid(row= 3 , column= 0)
 
 csoverEntry = tk.Entry(root)
 csoverEntry.insert(0, '0.7')
-csoverEntry.grid(row=4 , column=1)
+csoverEntry.grid(row=3 , column=1)
 
 MRlbl = tk.Label(root , text="Mutation Rate")
-MRlbl.grid(row = 5 , column= 0)
+MRlbl.grid(row = 4 , column= 0)
 
 MREntry = tk.Entry(root)
 MREntry.insert(0, '0.2')
-MREntry.grid(row=5 , column=1)
+MREntry.grid(row=4 , column=1)
 
 ERlbl = tk.Label(root , text="Elitisim Rate")
-ERlbl.grid(row=6 , column=0)
+ERlbl.grid(row=5 , column=0)
 
 EREntry = tk.Entry(root)
 EREntry.insert(0, '0.02')
-EREntry.grid(row=6 , column=1)
+EREntry.grid(row=5 , column=1)
 
 genlbl = tk.Label(root , text="Generations")
-genlbl.grid(row=7 , column=0)
+genlbl.grid(row=6 , column=0)
 
 genEntry = tk.Entry(root)
 genEntry.insert(0, '100')
-genEntry.grid(row=7 , column=1)
+genEntry.grid(row=6 , column=1)
 
-Execbtn = tk.Button(root , text="Execute" , command=execute)
+tourlbl = tk.Label(root , text="tournament size")
+tourlbl.grid(row=7 , column=0)
+
+tourEntry = tk.Entry(root)
+tourEntry.insert(0, '15')
+tourEntry.grid(row=7 , column=1)
+
+Execbtn = tk.Button(root , text="Execute" , command=execute , pady=10)
 Execbtn.grid(row=8 , columnspan=2)
-
-Resultlbl = tk.Label(root , text="Results" , height=5 , wraplength=200)
-Resultlbl.grid(row=9 , columnspan=2)
 
 canvas = FigureCanvasTkAgg(figure=fig , master=root)
 canvas_widget = canvas.get_tk_widget()
 canvas_widget.grid(row=0, column=3, columnspan=1, rowspan=8 , padx=10 , pady=10)
 
+Resultlbl = tk.Label(root , text="Results" , height=5 , wraplength=500)
+Resultlbl.grid(row=9 , column=3 ,  columnspan=1)
 # Configure row and column weights to make the cells expand with the window
-for i in range(9):
+for i in range(10):
     root.grid_rowconfigure(i, weight=1)
-for j in range(2):
+for j in range(4):
     root.grid_columnconfigure(j, weight=1)
 
 root.mainloop()

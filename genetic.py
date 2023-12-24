@@ -21,7 +21,7 @@ class Genetic:
     
     def clearAvg(self):
         self.Avg.clear()
-    def __init__(self , n , populationCount , csrate , mrrate , elitrate , generations):
+    def __init__(self , n , populationCount , csrate , mrrate , elitrate , generations , tourSize):
         self.n = n
         self.maxFitness = ((n+1) * n / 2) - n
         self.populationCount = populationCount
@@ -29,6 +29,7 @@ class Genetic:
         self.mrrate = mrrate
         self.elitrate = elitrate
         self.generations = generations
+        self.tourSize = tourSize
 
     def __generate_individual(self):
         return random.sample(range(self.n), self.n)
@@ -78,9 +79,8 @@ class Genetic:
             for i in range(elitcount):
                 new_population.append(population[i])
 
-            #TODO: be sure of tournament 
             while len(new_population) < self.populationCount:
-                parent1, parent2 = random.choices(population[:5], k=2)  # Tournament selection
+                parent1, parent2 = random.choices(population[:self.tourSize], k=2)  # Tournament selection
                 [child1 , child2] = self.__crossover(parent1, parent2)
                 if random.random() < self.mrrate:  # 10% chance of mutation
                     self.__mutate(child1)
