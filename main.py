@@ -22,6 +22,7 @@ def execute() :
     # maxFitness = genetic.maxFitness
     Resultlbl.config(text=solution)
     print("Avg: " , genetic.getAvg())
+    print("Best: " , genetic.getBOG())
     plot_array(genetic.getBOG() , genetic.getAvg())
     genetic.clearBOG()
     genetic.clearAvg()

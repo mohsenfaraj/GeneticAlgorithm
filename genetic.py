@@ -72,11 +72,13 @@ class Genetic:
             
             #Elitism
             new_population = []
+
+            # Elitism: Keep the best individual
             elitcount = abs(int(self.populationCount * self.elitrate))
             for i in range(elitcount):
                 new_population.append(population[i])
 
-            # new_population = [population[:elitcount]]  # Elitism: Keep the best individual
+            #TODO: be sure of tournament 
             while len(new_population) < self.populationCount:
                 parent1, parent2 = random.choices(population[:5], k=2)  # Tournament selection
                 [child1 , child2] = self.__crossover(parent1, parent2)
