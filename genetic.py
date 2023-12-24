@@ -23,7 +23,7 @@ class Genetic:
         self.Avg.clear()
     def __init__(self , n , populationCount , csrate , mrrate , elitrate , generations , tourSize):
         self.n = n
-        self.maxFitness = ((n+1) * n / 2) - n
+        self.maxFitness = n * (n-1) / 2
         self.populationCount = populationCount
         self.csrate = csrate
         self.mrrate = mrrate
@@ -38,8 +38,12 @@ class Genetic:
         clashes = 0
         for i in range(self.n - 1):
             for j in range(i + 1, self.n):
+                #check for diagonal
                 if abs(i - j) == abs(individual[i] - individual[j]):
                     clashes += 1
+                #check for the same row
+                elif individual[i] == individual[j]:
+                    clashes += 1 
         return self.maxFitness - clashes
 
     def __crossover(self , parent1, parent2):

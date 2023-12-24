@@ -97,7 +97,7 @@ tourlbl = tk.Label(root , text="tournament size")
 tourlbl.grid(row=7 , column=0)
 
 tourEntry = tk.Entry(root)
-tourEntry.insert(0, '15')
+tourEntry.insert(0, '20')
 tourEntry.grid(row=7 , column=1)
 
 Execbtn = tk.Button(root , text="Execute" , command=execute , pady=10)
