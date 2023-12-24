@@ -64,25 +64,26 @@ class Genetic:
 
             population = sorted(population, key=lambda x: self.__fitness(x), reverse=True)
 
+            # add best gene fitness to the list 
             self.bestOfGenerationsFitness.append(self.__fitness(population[0]))
  
-            #Calc Avg
+            # calculate Average fitness
             self.calcAvg(population)
             if self.__fitness(population[0]) == self.maxFitness:
                 return(f"Solution found in generation {generation + 1}: {population[0]}")
             
             #Elitism
             new_population = []
-
-            # Elitism: Keep the best individual
             elitcount = abs(int(self.populationCount * self.elitrate))
             for i in range(elitcount):
                 new_population.append(population[i])
 
             while len(new_population) < self.populationCount:
-                parent1, parent2 = random.choices(population[:self.tourSize], k=2)  # Tournament selection
+                
+                # Tournament selection
+                parent1, parent2 = random.choices(population[:self.tourSize], k=2)  
                 [child1 , child2] = self.__crossover(parent1, parent2)
-                if random.random() < self.mrrate:  # 10% chance of mutation
+                if random.random() < self.mrrate:
                     self.__mutate(child1)
                 if random.random() < self.mrrate:
                     self.__mutate(child2)
